@@ -1,0 +1,66 @@
+{
+    "items": [
+        {
+            "product": {
+                "id": 2321312,
+                "name": "Smartphone Apple iPhone 7 128GB",
+                "images": [
+                    "https://i.zst.com.br/images/smartphone-apple-iphone-7-7-32gb-32gb-12-0-mp-apple-a10-fusion-ios-10-photo159621785-12-38-15.jpg",
+                    "https://i.zst.com.br/images/smartphone-apple-iphone-7-7-32gb-32gb-12-0-mp-apple-a10-fusion-ios-10-photo159621786-12-1d-15.jpg",
+                    "https://i.zst.com.br/images/smartphone-apple-iphone-7-7-32gb-32gb-12-0-mp-apple-a10-fusion-ios-10-photo159621787-12-2-15.jpg",
+                    "https://i.zst.com.br/images/smartphone-apple-iphone-7-7-32gb-32gb-12-0-mp-apple-a10-fusion-ios-10-photo159621784-12-13-15.jpg"
+                ],
+                "price": {
+                    "value": 3509.10,
+                    "installments": 10,
+                    "installmentValue": 389.90
+                }
+            }
+        },
+        {
+            "product": {
+                "id": 9971,
+                "name": "Smart TV LED 50 polegadas Samsung RU7100 4K HDR 50RU7100",
+                "images": [
+                    "https://i.zst.com.br/images/smart-tv-tv-led-50-samsung-serie-7-4k-hdr-un50ru7100gxzd-3-hdmi-photo796872363-12-30-13.jpg",
+                    "https://i.zst.com.br/images/smart-tv-tv-led-50-samsung-serie-7-4k-hdr-un50ru7100gxzd-3-hdmi-photo796872372-12-28-13.jpg",
+                    "https://i.zst.com.br/images/smart-tv-tv-led-50-samsung-serie-7-4k-hdr-un50ru7100gxzd-3-hdmi-photo796872387-12-3e-13.jpg",
+                    "https://i.zst.com.br/images/smart-tv-tv-led-50-samsung-serie-7-4k-hdr-un50ru7100gxzd-3-hdmi-photo796872402-12-1e-13.jpg"
+                ],
+                "price": {
+                    "value": 1139.90,
+                    "installments": 10,
+                    "installmentValue": 134.11
+                }
+            }
+        },
+        {
+            "product": {
+                "id": 6717131,
+                "name": "Câmera Digital Canon EOS Rebel SL2 DSLR Full HD",
+                "images": [
+                    "https://i.zst.com.br/images/camera-digital-dslr-profissional-canon-eos-24-2-mp-full-hd-rebel-sl2-photo226524901-12-3e-37.jpg"
+                ],
+                "price": {
+                    "value": 1999.20,
+                    "installments": 10,
+                    "installmentValue": 235.20
+                }
+            }
+        },
+        {
+            "product": {
+                "id": 6717131,
+                "name": "Notebook Lenovo IdeaPad S145 Intel Core i5 8265U 8GB HD 1 TB Windows 10 8ª Geração",
+                "images": [
+                    "https://i.zst.com.br/images/notebook-lenovo-ideapad-s145-intel-core-i5-8265u-8-geracao-8gb-de-ram-hd-1-tb-15-6-windows-10-ideapad-s145-photo857950384-12-f-14.jpg"
+                ],
+                "price": {
+                    "value": 2599.00,
+                    "installments": 10,
+                    "installmentValue": 259.90
+                }
+            }
+        }
+    ]
+}
