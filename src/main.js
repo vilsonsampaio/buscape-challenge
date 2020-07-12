@@ -1,11 +1,11 @@
-import api from 'axios';
 class App {
   constructor() {
-    this.repositories = [];
+    this.cart = [];
 
-    this.divProducts = document.querySelector('.products')
-
-    this.addProducts();
+    this.divProducts = document.querySelector('.products');
+    
+    this.carrinhoMenu = document.querySelector('header .cart a');
+    this.carrinho = document.querySelector('.carrinho');
   }
 
   async addProducts() {
@@ -83,18 +83,67 @@ class App {
         divProduct.appendChild(divTabNav);
         divProduct.appendChild(divImg);
         divProduct.appendChild(divInfo);
-        
-        this.divProducts.appendChild(divProduct);
-      });
 
+        this.divProducts.appendChild(divProduct);
+
+        // Adicionando a classe ativo nas primeiras imagens dos menus
+        document.querySelectorAll('.product .tab-nav ul').forEach(ul => {
+          ul.firstElementChild.classList.add('ativo')
+        });
+      });
     } catch (err) {
       console.warn('Erro ao inserir os produtos')
     }
   }
 
-  // registerHandlers() {
-  // this.formEl.onsubmit = event => this.addRepository(event);
-  // }
+  openCart(event) {
+    event.preventDefault();
+    this.carrinho.classList.toggle('ativo');
+  }
+
+  addFavorite(event) {
+    event.preventDefault();
+    event.currentTarget.firstElementChild.classList.toggle('ativo');
+  } 
+
+  changeMainImage(event) {
+    event.preventDefault();  
+
+    const target = event.currentTarget.firstElementChild;
+    const ul = target.parentElement.parentElement.parentElement;
+    
+    const lis = ul.querySelectorAll('li')
+
+    lis.forEach(li => {
+      li.classList.remove('ativo')
+    });
+
+    const liSelecionado = target.parentElement.parentElement;
+    liSelecionado.classList.add('ativo');
+
+
+    const imagem = target.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].firstElementChild;
+
+    imagem.src = target.src;
+  }
+
+  registerHandlers() {
+    this.carrinhoMenu.onclick = event => this.openCart(event);
+
+    this.favoritos.forEach(favorito => favorito.onclick = event => this.addFavorite(event));
+    this.imagesNav.forEach(imageNav => imageNav.onclick = event => this.changeMainImage(event));
+  }
+
+  async init() {
+    // Esperando primeiro adicionar os produtos para depois executar as outras funções
+    await this.addProducts();
+    
+    // Guardando os botões para favoritar, só depois de adicionar todos os produtos no DOM 
+    this.favoritos = document.querySelectorAll('.product .info .title h1 a');
+    this.imagesNav = document.querySelectorAll('.product .tab-nav ul li a');
+
+    this.registerHandlers();
+  }
 
   // setLoading(loading = true) {
   //   if (loading === true) {
@@ -174,4 +223,4 @@ class App {
   // }
 }
 
-new App();
+new App().init();
