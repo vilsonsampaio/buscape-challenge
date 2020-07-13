@@ -139,13 +139,11 @@ class App {
     } else {
       this.cartMenu.firstElementChild.classList.remove('hide');
     }
-    
   }
 
   addToCart(event) {
     const target = event.currentTarget;
     const targetPai = target.parentElement.parentElement.parentElement;
-    console.log(targetPai)
 
     const urlImagem = targetPai.querySelectorAll('.tab-nav ul li a img')[0].src;
     const name = targetPai.querySelector('.info .title h1').innerText;
@@ -165,7 +163,7 @@ class App {
       });
     }
 
-    console.log(this.cart)
+    console.log(this.cart);
     this.renderCart();
   }
 
@@ -186,7 +184,6 @@ class App {
 
     // Preenchendo a div com os itens presentes no array this.cart
     this.cart.forEach(cart => {    
-      console.log(cart)
       let { urlImagem, name, installments, installmentPrice, price } = cart;
       
       installmentPrice = cart.installmentPrice.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
