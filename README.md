@@ -1,5 +1,9 @@
 # Teste para Front-end Buscapé
 
+## TO-DO
+- [ ] Retirar o src das imagens dos styles da imagem principal e adicionar o elemento img
+- [ ] Trocar o display do img-nav de grid para flex
+
 ## Stack
 
 * Use a stack da sua preferência.
