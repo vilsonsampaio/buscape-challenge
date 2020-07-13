@@ -18,17 +18,19 @@ class App {
       products.forEach(item => {
         let { name, images, price: { value: price, installments, installmentValue: installmentPrice } } = item.product;
 
+        // Passando o price para o padrão da moeda R$
         price = price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         installmentPrice = installmentPrice.toFixed(2).replace('.', ',');
 
+
         // Criando a div product
-        const divProduct = document.createElement('div');
-        divProduct.classList.add('product');
+        const productDiv = document.createElement('div');
+        productDiv.classList.add('product');
 
 
         // Criando a div.tab-nav
-        const divTabNav = document.createElement('div');
-        divTabNav.classList.add('tab-nav');
+        const imageNavDiv = document.createElement('div');
+        imageNavDiv.classList.add('tab-nav');
 
         const ul = document.createElement('ul');
         images.forEach(image => {
@@ -41,15 +43,15 @@ class App {
           ul.appendChild(li);
         })
 
-        divTabNav.appendChild(ul);
+        imageNavDiv.appendChild(ul);
 
 
 
         // Criando a div.img
-        const divImg = document.createElement('div');
-        divImg.classList.add('img');
+        const imgDiv = document.createElement('div');
+        imgDiv.classList.add('img');
 
-        divImg.innerHTML = `<img src="${images[0]}" alt="${name}">`
+        imgDiv.innerHTML = `<img src="${images[0]}" alt="${name}">`
 
 
 
@@ -80,11 +82,11 @@ class App {
 
 
 
-        divProduct.appendChild(divTabNav);
-        divProduct.appendChild(divImg);
-        divProduct.appendChild(divInfo);
+        productDiv.appendChild(imageNavDiv);
+        productDiv.appendChild(imgDiv);
+        productDiv.appendChild(divInfo);
 
-        this.productsDiv.appendChild(divProduct);
+        this.productsDiv.appendChild(productDiv);
 
         // Adicionando a classe ativo nas primeiras imagens dos menus
         document.querySelectorAll('.product .tab-nav ul').forEach(ul => {
@@ -139,6 +141,8 @@ class App {
     } else {
       this.cartMenu.firstElementChild.classList.remove('hide');
     }
+
+    return qtde.innerText;
   }
 
   addToCart(event) {
@@ -163,8 +167,29 @@ class App {
       });
     }
 
-    console.log(this.cart);
     this.renderCart();
+  }
+
+  removeFromCart(event) {
+    event.preventDefault();
+
+    // Armazenando a div carrinho-item
+    const elementoPai = event.currentTarget.parentElement;
+
+    // Armezanando a url da imagem do item que foi clicado
+    const urlImagem = elementoPai.querySelector('.image-carrinho').getAttribute('style').replace("background-image: url('", "").replace("');", "");
+
+    // Armazenando o index do elemento clicado
+    // O findIndex 
+    const indexCart = this.cart.findIndex(cart => (cart.urlImagem === urlImagem));
+    if (indexCart !== -1) {
+      this.cart.splice(indexCart, 1);
+      this.updateCartLenght();
+      this.renderCart();
+    } else {
+      console.warn('Não foi possível remover o ítem')
+    }
+
   }
 
   registerHandlers() {
@@ -174,6 +199,10 @@ class App {
     this.favorites.forEach(favorito => favorito.onclick = event => this.addFavorite(event));
     this.btnsAddToCart.forEach(btnAddToCart => btnAddToCart.onclick = event => this.addToCart(event));
   }
+  
+  registerRemoveHandler() {
+    this.btnsRemoveFromCart.forEach(btnRemoveFromCart => btnRemoveFromCart.onclick = event => this.removeFromCart(event)); 
+  }
 
   renderCart() {
     // Pegando a div carrinho-items
@@ -182,6 +211,9 @@ class App {
     // Zerando o conteúdo da div 
     cartItem.innerHTML = ''; 
 
+    // Caso não tenha nenhum item no array cart, ele não executa mais nada da função
+    if (!this.cart.length) return;
+  
     // Preenchendo a div com os itens presentes no array this.cart
     this.cart.forEach(cart => {    
       let { urlImagem, name, installments, installmentPrice, price } = cart;
@@ -210,17 +242,31 @@ class App {
       cartItem.appendChild(divCarrinhoItem);
     });
     
-
     // Armazenando a soma dos preços dos itens
     const total = this.cart.map(cart => cart.price).reduce((acc, cur) => acc + cur);
     
     // Armezenando o menor nº de parcelas presente nos itens
     const minInstallment = this.cart.map(cart => cart.installments).reduce((acc, cur) => (cur < acc) ? cur : acc);
-    
-    // Convertando os valores para o padrão de moeda R$
+
+    // Faz a média da quantidade de parcelas
+    const installmentsAverage = (this.cart.map(cart => cart.installments).reduce((acc, cur) => cur + acc)) / this.cart.length;
+
+    // Confere se a quantidade de parcelas é a mesma em todos os itens do vetor
+    const sameInstallments = (installmentsAverage == minInstallment);
+
+    let totalParcelado;
+    if (sameInstallments) {
+      // Caso a quantidade de parcelas seja a mesma, o total parcelado é a soma dos valores dessas parcelas
+      totalParcelado = this.cart.map(cart => cart.installmentPrice).reduce((acc, cur) => acc + cur).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+    } else {
+      // Caso seja diferente, o total parcelado é a soma dos valores de cada parcela multiplicado pela sua quantidade, e divido pela quantidade mínima de parcelas;
+      // É opicional, apenas para deixar o subtotal mais real possível
+      const totalParcelasDiferentes = this.cart.map(cart => (cart.installmentPrice * cart.installments)).reduce((acc, cur) => acc + cur);
+      totalParcelado = (totalParcelasDiferentes / minInstallment).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+    }
+
+    // Convertando o valor do total para o padrão de moeda R$
     const totalConvertido = total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-    const totalParcelado = (total / minInstallment).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-    
     
     // Preenchendo o subtotal do carrinho
     const divSubtotal = document.createElement('div');
@@ -235,9 +281,13 @@ class App {
     `;
 
     cartItem.appendChild(divSubtotal);
-
+    
     // Atualizando a quantidade de itens presentes no carrinho
     this.updateCartLenght();
+    
+    // Após inserir os dados de acordo com os ítens presentes no array, atualizamos a variável dos botões para excluir e chamamos a função que adiciona o evento de click neles
+    this.btnsRemoveFromCart = document.querySelectorAll('.carrinho-items .carrinho-item a');
+    this.registerRemoveHandler();
   }
 
   async init() {
@@ -252,82 +302,6 @@ class App {
     this.registerHandlers();
   }
 
-  // setLoading(loading = true) {
-  //   if (loading === true) {
-  //     let loadingEl = document.createElement('span');
-  //     loadingEl.setAttribute('id', 'loading');
-  //     loadingEl.innerText = 'Carregando...'; 
-
-  //     this.formEl.appendChild(loadingEl);
-  //   } else {
-  //     document.getElementById('loading').remove();
-  //   }
-
-  // }
-
-
-
-  // async addRepository(event) {
-  //   event.preventDefault();
-
-  //   const repoInput = this.inputEl.value;
-
-  //   if (repoInput.length === 0) 
-  //     return;
-
-  //   this.setLoading();
-
-  //   try {
-  //     const response = await api.get(`./resources/data.json`);
-
-  //     const { name, description, html_url, owner: { avatar_url } } = response.data;
-
-
-  //     this.repositories.push({
-  //       name,
-  //       description,
-  //       avatar_url,
-  //       html_url,
-  //     });
-
-  //     this.inputEl.value = ''
-
-  //     this.render();
-  //   } catch (error) {
-  //     alert('O repositório não existe!');
-  //   }
-
-  //   this.setLoading(false);
-  // }
-
-  // render() {
-  //   this.listEl.innerHTML = '';
-
-  //   this.repositories.forEach(repo => {
-  //     let imgEl = document.createElement('img');
-  //     imgEl.setAttribute('src', repo.avatar_url);
-
-  //     let titleEl = document.createElement('strong');
-  //     titleEl.innerText = repo.name;
-
-  //     let descriptionEl = document.createElement('p');
-  //     descriptionEl.innerText = repo.description;
-
-  //     let linkEl = document.createElement('a');
-  //     linkEl.setAttribute('href', repo.html_url);
-  //     linkEl.setAttribute('target', '_blank');
-  //     linkEl.innerText = 'Acessar';
-
-
-  //     let listItemEl = document.createElement('li');
-  //     listItemEl.appendChild(imgEl);
-  //     listItemEl.appendChild(titleEl);
-  //     listItemEl.appendChild(descriptionEl);
-  //     listItemEl.appendChild(linkEl);
-
-  //     this.listEl.appendChild(listItemEl)
-  //   })
-  // }
 }
 
 new App().init();
