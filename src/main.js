@@ -333,7 +333,6 @@ class App {
   }
 
   async init() {
-
     // Esperando primeiro adicionar os produtos na DOM para depois executar as outras funções
     await this.addProducts();
     
