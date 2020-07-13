@@ -95,24 +95,24 @@ header .cart {
   box-shadow: 0 2px 10px rgba(0, 0, 0, .04);
 }
 
-/* .tab-nav ul {
+/* .img-nav ul {
   height: 200px;
   overflow-y: auto;
 } */
 
-.tab-nav {
+.img-nav {
   display: flex;
   align-items: center;
 }
 
-.tab-nav li {
+.img-nav li {
   margin: 5px 0;
 
   border: solid 2px #f3f3f3;
   border-radius: 4px;
 }
 
-.tab-nav li.ativo {
+.img-nav li.ativo {
   border-color: #ffcd00;
 }
 
@@ -305,13 +305,13 @@ header .cart {
     padding: 40px;
   }
 
-  .tab-nav ul {
+  .img-nav ul {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 5px;
   }
   
-  .tab-nav li {
+  .img-nav li {
     margin: 0;
   }
 

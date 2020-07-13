@@ -28,26 +28,26 @@ class App {
         productDiv.classList.add('product');
 
 
-        // Criando a div.tab-nav
-        const imageNavDiv = document.createElement('div');
-        imageNavDiv.classList.add('tab-nav');
+        // Criando a div img-nav
+        const imgNavDiv = document.createElement('div');
+        imgNavDiv.classList.add('img-nav');
 
         const ul = document.createElement('ul');
-        images.forEach(image => {
+        images.forEach(imgUrl => {
           const li = document.createElement('li');
           li.innerHTML = `
             <a href="#">
-              <img src="${image}">
+              <img src="${imgUrl}">
             </a>
           `;
           ul.appendChild(li);
         })
 
-        imageNavDiv.appendChild(ul);
+        imgNavDiv.appendChild(ul);
 
 
 
-        // Criando a div.img
+        // Criando a div img
         const imgDiv = document.createElement('div');
         imgDiv.classList.add('img');
 
@@ -55,10 +55,10 @@ class App {
 
 
 
-        // Criando a div.info
-        const divInfo = document.createElement('div');
-        divInfo.classList.add('info');
-        divInfo.innerHTML = `
+        // Criando a div info
+        const infoDiv = document.createElement('div');
+        infoDiv.classList.add('info');
+        infoDiv.innerHTML = `
           <div class="title">
             <h1>${name} <a href="#"><div></div></a></h1>
           </div>
@@ -81,51 +81,56 @@ class App {
         `;
 
 
-
-        productDiv.appendChild(imageNavDiv);
+        // Adicionando na div product as divs criadas
+        productDiv.appendChild(imgNavDiv);
         productDiv.appendChild(imgDiv);
-        productDiv.appendChild(divInfo);
+        productDiv.appendChild(infoDiv);
 
+        // Adicionando a div product na div products
         this.productsDiv.appendChild(productDiv);
 
-        // Adicionando a classe ativo nas primeiras imagens dos menus
-        document.querySelectorAll('.product .tab-nav ul').forEach(ul => {
-          ul.firstElementChild.classList.add('ativo')
-        });
+
+        // Adicionando a classe ativo nas primeiras imagens da img-nav
+        document.querySelectorAll('.product .img-nav ul').forEach(ul => ul.firstElementChild.classList.add('ativo'));
       });
     } catch (err) {
-      console.warn('Erro ao inserir os produtos')
+      console.warn('Erro ao inserir os produtos');
     }
   }
 
   openCart(event) {
     event.preventDefault();
+
+    // Adicionando ou removendo a classe ativo ao clicar em abrir carrinho
     this.cartDiv.classList.toggle('ativo');
   }
 
   changeMainImage(event) {
     event.preventDefault();  
 
+    // Armazenando o elemento img clicado
     const target = event.currentTarget.firstElementChild;
-    const ul = target.parentElement.parentElement.parentElement;
     
-    const lis = ul.querySelectorAll('li')
+    // Volta para o elemento ul e armazena todas as lis 
+    const lis = target.parentElement.parentElement.parentElement.querySelectorAll('li')
 
-    lis.forEach(li => {
-      li.classList.remove('ativo')
-    });
+    // Faz o loop em todos lis, removendo a classe ativo
+    lis.forEach(li => li.classList.remove('ativo'));
 
-    const liSelecionado = target.parentElement.parentElement;
-    liSelecionado.classList.add('ativo');
+    // Adiciona a classe ativo no li selecionado
+    target.parentElement.parentElement.classList.add('ativo');
 
+    // Armazenando o elemento da imagem principal
+    const image = target.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].firstElementChild;
 
-    const imagem = target.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].firstElementChild;
-
-    imagem.src = target.src;
+    // Atribuindo o src da imagem principal ao da imagem do li clicado
+    image.src = target.src;
   }
 
   addFavorite(event) {
     event.preventDefault();
+
+    // Adicionando ou removendo a classe ativo nos corações clicados
     event.currentTarget.firstElementChild.classList.toggle('ativo');
   } 
 
@@ -136,97 +141,122 @@ class App {
     // Atualizando a quantidade de itens da DOM de acordo com o tamanho da array this.cart
     qtde.innerText = this.cart.length;
     
-    if (!+qtde.innerText) {
-      this.cartMenu.firstElementChild.classList.add('hide');
-    } else {
-      this.cartMenu.firstElementChild.classList.remove('hide');
-    }
-
-    return qtde.innerText;
+    // Caso não haja nenhum item no array, adiciona a classe hide na div que contém a quantidade
+    if (!+qtde.innerText) this.cartMenu.firstElementChild.classList.add('hide');
+    
+    // Caso tenha, remove a classe hide e mostra a div que contém a quantidade
+    else this.cartMenu.firstElementChild.classList.remove('hide');
+  
   }
 
   addToCart(event) {
-    const target = event.currentTarget;
-    const targetPai = target.parentElement.parentElement.parentElement;
+    // Armazenando a div product que contém o button clicado
+    const target = event.currentTarget.parentElement.parentElement.parentElement;
 
-    const urlImagem = targetPai.querySelectorAll('.tab-nav ul li a img')[0].src;
-    const name = targetPai.querySelector('.info .title h1').innerText;
-    const installments = +(targetPai.querySelector('.info .prices h2 .parcela').innerText);
-    const installmentPrice = +(targetPai.querySelector('.info .prices h2 .parcelado').innerText.replace(',', '.'));
-    const price = +(targetPai.querySelector('.info .prices h3 span').innerText.replace('R$', '').replace('.', '').replace(',', '.'));
+    // Reservando a url da imagem do produto que será adicionado ao carrinho
+    const urlImage = target.querySelectorAll('.img-nav ul li a img')[0].src;
+    
+    // Conferindo se já há um item no carrinho com o mesmo urlImage
+    const arrayNomes = this.cart.map(item => item.urlImage).includes(urlImage);
+    
+    // Caso já tenha um mesmo item no array, encerra a função
+    if (arrayNomes) return;
 
-    // Conferindo se já há um item no carrinho
-    const arrayNomes = this.cart.map(item => item.urlImagem).includes(urlImagem);
-    if (!arrayNomes) {
-      this.cart.push({
-        urlImagem,
-        name,
-        installments,
-        installmentPrice,
-        price,
-      });
-    }
+    // Caso não tenha, continua o codigo
 
+    // Reservando os outros valores
+    const name = target.querySelector('.info .title h1').innerText;
+    const installments = +(target.querySelector('.info .prices h2 .parcela').innerText);
+    const installmentPrice = +(target.querySelector('.info .prices h2 .parcelado').innerText.replace(',', '.'));
+    const price = +(target.querySelector('.info .prices h3 span').innerText.replace('R$', '').replace('.', '').replace(',', '.'));
+
+    // Inserindo os valores no vetor
+    this.cart.push({
+      urlImage,
+      name,
+      installments,
+      installmentPrice,
+      price,
+    });
+
+    // Atualizando a div do carrinho com os novos valores
     this.renderCart();
   }
 
   removeFromCart(event) {
     event.preventDefault();
 
-    // Armazenando a div carrinho-item
-    const elementoPai = event.currentTarget.parentElement;
+    // Busca na div carrinho-item a url da imagem do item que foi clicado, armazenando-a
+    const urlImage = event.currentTarget.parentElement.querySelector('.image-carrinho').getAttribute('style').replace("background-image: url('", "").replace("');", "");
 
-    // Armezanando a url da imagem do item que foi clicado
-    const urlImagem = elementoPai.querySelector('.image-carrinho').getAttribute('style').replace("background-image: url('", "").replace("');", "");
+    // Armazenando o index do elemento clicado.
+    // Caso não encontre, o findIndex retorna -1
+    const indexCart = this.cart.findIndex(cart => (cart.urlImage === urlImage));
+    
+    // Se o indexCart for igual a -1, o código encerra aqui e retorna o aviso de erro
+    if (indexCart === -1) return console.warn('Não foi possível remover o item');
 
-    // Armazenando o index do elemento clicado
-    // O findIndex 
-    const indexCart = this.cart.findIndex(cart => (cart.urlImagem === urlImagem));
-    if (indexCart !== -1) {
-      this.cart.splice(indexCart, 1);
-      this.updateCartLenght();
-      this.renderCart();
-    } else {
-      console.warn('Não foi possível remover o ítem')
-    }
+    // Caso seja diferente de -1, o código continua
+    
+    // Removendo do array o item clicado
+    this.cart.splice(indexCart, 1); 
+    
+    // Atualiza a quantidade de itens no carrinho
+    this.updateCartLenght();
 
+    // Atualiza o conteúdo da div carrinho, com o array modificado
+    this.renderCart();
   }
 
   registerHandlers() {
+    // Registrando todos os clicks nos elementos e executando as funções respectivas
+    // Serão executados apenas depois do fetch dos produtos
+    
+    // Click para abrir a div carrinho 
     this.cartMenu.onclick = event => this.openCart(event);
-
+    
+    // Click para trocar a imagem principal 
     this.imagesNav.forEach(imageNav => imageNav.onclick = event => this.changeMainImage(event));
+
+    // Click para adicionar um produto como favorito
     this.favorites.forEach(favorito => favorito.onclick = event => this.addFavorite(event));
+
+    // Click para adicionar um produto ao carrinho (array)
     this.btnsAddToCart.forEach(btnAddToCart => btnAddToCart.onclick = event => this.addToCart(event));
   }
   
   registerRemoveHandler() {
+    // Isolando o click para remover um item do carrinho
+    // Será executado toda vez que o array cart for atualizado 
     this.btnsRemoveFromCart.forEach(btnRemoveFromCart => btnRemoveFromCart.onclick = event => this.removeFromCart(event)); 
   }
 
   renderCart() {
     // Pegando a div carrinho-items
-    const cartItem = this.cartDiv.firstElementChild;
+    const cartItems = this.cartDiv.firstElementChild;
 
-    // Zerando o conteúdo da div 
-    cartItem.innerHTML = ''; 
+    // Zerando o conteúdo da div carrinho-items
+    cartItems.innerHTML = ''; 
 
-    // Caso não tenha nenhum item no array cart, ele não executa mais nada da função
+    // Caso não tenha nenhum item no array cart, ele não executa mais nada da função.
     if (!this.cart.length) return;
   
-    // Preenchendo a div com os itens presentes no array this.cart
+    // Preenchendo a div carrinho-item, de acordo com os itens presentes no array this.cart
     this.cart.forEach(cart => {    
-      let { urlImagem, name, installments, installmentPrice, price } = cart;
+      let { urlImage, name, installments, installmentPrice, price } = cart;
       
+      // Formatando o valor parcelado e a vista para o padrão do R$
       installmentPrice = cart.installmentPrice.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
       price = cart.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
   
-      const divCarrinhoItem = document.createElement('div');
-      divCarrinhoItem.classList.add('carrinho-item');
+      // Criando a div carrinho-item
+      const itemCartDiv = document.createElement('div');
+      itemCartDiv.classList.add('carrinho-item');
   
-      divCarrinhoItem.innerHTML = `
+      // Preenchendo a div carrinho-item
+      itemCartDiv.innerHTML = `
         <div class="left">
-          <div class="image-carrinho" style="background-image: url('${urlImagem}');">
+          <div class="image-carrinho" style="background-image: url('${urlImage}');">
           </div>
 
           <div class="info-carrinho">
@@ -239,7 +269,8 @@ class App {
         <a href="#">X</a>
       `;
       
-      cartItem.appendChild(divCarrinhoItem);
+      // Adicionando a div carrinho-item na div carrinho-items
+      cartItems.appendChild(itemCartDiv);
     });
     
     // Armazenando a soma dos preços dos itens
@@ -254,54 +285,70 @@ class App {
     // Confere se a quantidade de parcelas é a mesma em todos os itens do vetor
     const sameInstallments = (installmentsAverage == minInstallment);
 
-    let totalParcelado;
+    let installmentTotal;
     if (sameInstallments) {
       // Caso a quantidade de parcelas seja a mesma, o total parcelado é a soma dos valores dessas parcelas
-      totalParcelado = this.cart.map(cart => cart.installmentPrice).reduce((acc, cur) => acc + cur).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+      installmentTotal = this.cart.map(cart => cart.installmentPrice).reduce((acc, cur) => acc + cur);
     } else {
-      // Caso seja diferente, o total parcelado é a soma dos valores de cada parcela multiplicado pela sua quantidade, e divido pela quantidade mínima de parcelas;
-      // É opicional, apenas para deixar o subtotal mais real possível
-      const totalParcelasDiferentes = this.cart.map(cart => (cart.installmentPrice * cart.installments)).reduce((acc, cur) => acc + cur);
-      totalParcelado = (totalParcelasDiferentes / minInstallment).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+      // Caso seja diferente, o total parcelado inicialmente é a soma dos valores de cada parcela multiplicado pela sua quantidade 
+      installmentTotal = this.cart.map(cart => (cart.installmentPrice * cart.installments)).reduce((acc, cur) => acc + cur);
+      
+      // O total parcelado agora é o valor arrecado anteriormente divido pela menor parcela de todos os produtos no carrinho 
+      installmentTotal /= minInstallment;
+
+      // **É opicional, apenas para deixar o subtotal mais lógico o possível
     }
-
-    // Convertando o valor do total para o padrão de moeda R$
-    const totalConvertido = total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
     
-    // Preenchendo o subtotal do carrinho
-    const divSubtotal = document.createElement('div');
-    divSubtotal.classList.add('subtotal');
+    
+    // Convertando o valor do total para o padrão de moeda R$
+    const convertedTotal = total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
 
-    divSubtotal.innerHTML = `
+    // Convertando o valor do total parcelado para o padrão de moeda R$
+    installmentTotal = installmentTotal.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+    
+    // Criando a div do subtotal do carrinho
+    const subtotalDiv = document.createElement('div');
+    subtotalDiv.classList.add('subtotal');
+
+    // Preenchendo a div
+    subtotalDiv.innerHTML = `
       <div class="subtotal">
         <h2 class="subtotal-carrinho">subtotal</h2>
-        <h2 class="subtotal-installments">${minInstallment}x de ${totalParcelado}</h2>
-        <h2 class="subtotal-price">ou ${totalConvertido} à vista</h2>
+        <h2 class="subtotal-installments">${minInstallment}x de ${installmentTotal}</h2>
+        <h2 class="subtotal-price">ou ${convertedTotal} à vista</h2>
       </div>
     `;
-
-    cartItem.appendChild(divSubtotal);
     
-    // Atualizando a quantidade de itens presentes no carrinho
+    // Adicionando a div do subtotal do carrinho na div carrinho-items
+    cartItems.appendChild(subtotalDiv);
+    
+    // Atualizando a quantidade de itens presentes no array cart
     this.updateCartLenght();
     
-    // Após inserir os dados de acordo com os ítens presentes no array, atualizamos a variável dos botões para excluir e chamamos a função que adiciona o evento de click neles
+    // Após inserir os dados de acordo com os ítens presentes no array cart, atualiza a variável dos botões para excluir
     this.btnsRemoveFromCart = document.querySelectorAll('.carrinho-items .carrinho-item a');
+
+    // Chamando a função que adiciona o evento de click nos botões atualizados
     this.registerRemoveHandler();
   }
 
   async init() {
-    // Esperando primeiro adicionar os produtos para depois executar as outras funções
+
+    // Esperando primeiro adicionar os produtos na DOM para depois executar as outras funções
     await this.addProducts();
     
-    // Guardando os botões para favoritar, só depois de adicionar todos os produtos no DOM 
-    this.imagesNav = document.querySelectorAll('.product .tab-nav ul li a');
+    // Armazenando os botões dependentes do fetch dos produtos
+    this.imagesNav = document.querySelectorAll('.product .img-nav ul li a');
     this.favorites = document.querySelectorAll('.product .info .title h1 a');
     this.btnsAddToCart = document.querySelectorAll('.add-carrinho');
-    this.updateCartLenght();
+    
+    // Executa a função que escuta os clicks dos elementos dependentes do fetch
     this.registerHandlers();
-  }
 
+    // Atualiza a quantidade de itens no array cart
+    // Inicia 0, pois ainda não adicionamos nenhum produto
+    this.updateCartLenght();
+  }
 }
 
 new App().init();
