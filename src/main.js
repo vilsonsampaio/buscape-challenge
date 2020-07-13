@@ -10,7 +10,7 @@ class App {
 
   async addProducts() {
     try {
-      const productsResponse = await fetch('./resources/data.json');
+      const productsResponse = await fetch('./assets/data.json');
       const productsJSON = await productsResponse.json();
       
       const products = productsJSON.items;
