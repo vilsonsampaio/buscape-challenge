@@ -3,6 +3,7 @@
 ## TO-DO
 - [ ] Retirar o src das imagens dos styles da imagem principal e adicionar o elemento img
 - [ ] Trocar o display do img-nav de grid para flex
+- [ ] Atualizar README.md
 
 ## Stack
 
