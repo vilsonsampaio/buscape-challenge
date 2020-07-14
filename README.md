@@ -1,26 +1,75 @@
-# Teste para Front-end Buscapé
+<h1 align="center">
+    <img alt="Buscapé" title="Buscapé" src="./.github/logo.svg" width="160px" />
+</h1>
 
-## TO-DO
-- [ ] Retirar o src das imagens dos styles da imagem principal e adicionar o elemento img
-- [ ] Trocar o display do img-nav de grid para flex
-- [ ] Atualizar README.md
+<p align="center">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
+   
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/top/vilsonsampaio/buscape-challenge.svg?color=https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
 
-## Stack
+  <a href="https://github.com/vilsonsampaio/buscape-challenge/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/vilsonsampaio/buscape-challenge.svg?color=https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
+  </a>
 
-* Use a stack da sua preferência.
-* Não esqueça de colocar instruções para rodar o projeto :)
+  <a href="https://github.com/vilsonsampaio/">
+    <img alt="Author" src="https://img.shields.io/badge/author-Vilson%20Sampaio-https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
+  </a>
+</p>
 
-## Pré-requisitos
+<p align="center">
+  <a href="#-sobre-o-projeto">Sobre o projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-projeto-final">Projeto final</a>
+</p>
 
-* Layout responsivo.
-* Listar os produtos.
-* Adicionar no carrinho.
-* Remover do carrinho.
-* Galeria de imagens
 
-## Bonus game
+<br>
 
-* Trocar imagens quebradas para imagens de erro default.
-* Renderizar no server side.
-* Persistir os dados.
-* Teste do código.
+<p align="center">
+  <img alt="Buscapé" src=".github/preview.png" width="100%">
+</p>
+
+## 💻 Sobre o projeto
+
+Esse projeto foi desenvolvido com a finalidade de praticar meus conhecimentos com o JavaScript. Trata-se de um clone simples do [Buscapé](https://www.buscape.com.br/), que simula a listagem de 4 produtos por meio de um fetch, uma navegação de imagens e a funcionalidade de adicionar e remover do carrinho. Além disso, o código em si foi feito com base em Classes, a fim de exercitar a Orientação a Objetos.
+
+
+## 🚀 Tecnologias
+
+Esse projeto foi desenvolvido com as seguintes tecnologias:
+
+- [JavaScript ES6](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- [CSS3](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
+- [HTML5](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
+
+
+## 🔖 Layout
+
+O layout e o desafio foram tirados do repositório [Front-end Challenges](https://github.com/felipefialho/frontend-challenges), do [Felipe Fialho](https://github.com/felipefialho/).
+
+
+## 🌐 Projeto final
+[Clique aqui](https://vilsonsampaio.github.io/) para acessar o projeto no ar!
+
+### 🖥 Desktop
+#### Página principal
+![](./.github/desktop.png)
+
+#### Página principal (carrinho aberto)
+![](./.github/desktop-open-cart.png)
+<br>
+
+### 📱 Mobile
+#### Página principal
+![](./.github/mobile.png)
+
+#### Página principal (carrinho aberto)
+![](./.github/mobile-open-cart.png)
+
+
+---
+<p align="center">
+Feito com ❤️ by <a href="https://www.linkedin.com/in/vilsonsampaio/">Vilson Sampaio</a>
+</p>
+
