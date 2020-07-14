@@ -12,7 +12,7 @@
   </a>
 
   <a href="https://github.com/vilsonsampaio/">
-    <img alt="Author" src="https://img.shields.io/badge/author-Vilson%20Sampaio-https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
+    <img alt="Author" src="https://img.shields.io/badge/author-Vilson%20Sampaio-ffcd00">
   </a>
 </p>
 
