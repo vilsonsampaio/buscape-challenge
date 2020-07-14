@@ -3,12 +3,12 @@
 </h1>
 
 <p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
    
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/top/vilsonsampaio/buscape-challenge.svg?color=https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/top/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
 
   <a href="https://github.com/vilsonsampaio/buscape-challenge/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/vilsonsampaio/buscape-challenge.svg?color=https://img.shields.io/github/languages/count/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/vilsonsampaio/buscape-challenge.svg?color=ffcd00">
   </a>
 
   <a href="https://github.com/vilsonsampaio/">
