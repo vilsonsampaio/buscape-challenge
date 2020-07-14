@@ -212,6 +212,7 @@ class App {
     // Atualiza o conteúdo da div carrinho, com o array modificado
     this.renderCart();
 
+    // Salvando no localStorage o array cart modificado
     this.saveToStorage();
   }
 
@@ -245,8 +246,8 @@ class App {
     // Zerando o conteúdo da div carrinho-items
     cartItems.innerHTML = ''; 
 
-    // Caso não tenha nenhum item no array cart, ele não executa mais nada da função.
-    if (!this.cart.length) return;
+    // Caso não tenha nenhum item no array cart, a classe ativo é removida da div carrinho. O return é apenas para parar a função e não executar mais nada que esteja abaixo.
+    if (!this.cart.length) return this.cartDiv.classList.remove('ativo');
 
     // Preenchendo a div carrinho-item, de acordo com os itens presentes no array this.cart
     this.cart.forEach(cart => {    
