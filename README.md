@@ -70,6 +70,6 @@ O layout e o desafio foram tirados do repositório [Front-end Challenges](https:
 
 ---
 <p align="center">
-Feito com ❤️ by <a href="https://www.linkedin.com/in/vilsonsampaio/">Vilson Sampaio</a>
+Feito com 💛 <a href="https://www.linkedin.com/in/vilsonsampaio/">Vilson Sampaio</a>
 </p>
 
