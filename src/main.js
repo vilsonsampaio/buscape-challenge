@@ -1,6 +1,8 @@
 class App {
   constructor() {
-    this.cart = [];
+    // Atualizando o vetor cart com os itens guardados no localStorage
+    // Caso ainda não tenha o item no localStorage, o ou (||) o define como um array vazio
+    this.cart = this.getFromStorage() || [];
 
     this.productsDiv = document.querySelector('.products');
     
@@ -179,8 +181,11 @@ class App {
       price,
     });
 
-    // Atualizando a div do carrinho com os novos valores
+    // Atualizando a div do carrinho com os novos produtos
     this.renderCart();
+
+    // Salvando no storage o array com os novos produtos
+    this.saveToStorage();
   }
 
   removeFromCart(event) {
@@ -200,12 +205,14 @@ class App {
     
     // Removendo do array o item clicado
     this.cart.splice(indexCart, 1); 
-    
+
     // Atualiza a quantidade de itens no carrinho
     this.updateCartLenght();
-
+    
     // Atualiza o conteúdo da div carrinho, com o array modificado
     this.renderCart();
+
+    this.saveToStorage();
   }
 
   registerHandlers() {
@@ -240,7 +247,7 @@ class App {
 
     // Caso não tenha nenhum item no array cart, ele não executa mais nada da função.
     if (!this.cart.length) return;
-  
+
     // Preenchendo a div carrinho-item, de acordo com os itens presentes no array this.cart
     this.cart.forEach(cart => {    
       let { urlImage, name, installments, installmentPrice, price } = cart;
@@ -332,6 +339,16 @@ class App {
     this.registerRemoveHandler();
   }
 
+  saveToStorage() {
+    // Criando o item cart no localStorage e guardando o valor, convertido em JSON, do array cart nele
+    localStorage.setItem('cart', JSON.stringify(this.cart));
+  }
+
+  getFromStorage() {
+    // Converte o valor do item cart, que está em JSON, retornando seu valor
+    return JSON.parse(localStorage.getItem('cart'));
+  }
+
   async init() {
     // Esperando primeiro adicionar os produtos na DOM para depois executar as outras funções
     await this.addProducts();
@@ -340,6 +357,9 @@ class App {
     this.imagesNav = document.querySelectorAll('.product .img-nav ul li a');
     this.favorites = document.querySelectorAll('.product .info .title h1 a');
     this.btnsAddToCart = document.querySelectorAll('.add-carrinho');
+
+    // Renderiza a div carrinho-items, caso já tenha produtos salvos no localStorage
+    this.renderCart();
     
     // Executa a função que escuta os clicks dos elementos dependentes do fetch
     this.registerHandlers();
