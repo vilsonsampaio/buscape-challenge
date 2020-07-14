@@ -50,7 +50,7 @@ O layout e o desafio foram tirados do repositório [Front-end Challenges](https:
 
 
 ## 🌐 Projeto final
-[Clique aqui](https://vilsonsampaio.github.io/buscape-challenge) para acessar o projeto no ar!
+[Clique aqui](http://buscape-challenge.surge.sh/) para acessar o projeto no ar!
 
 ### 🖥 Desktop
 #### Página principal
